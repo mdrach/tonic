@@ -33,15 +33,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let greeter = MyGreeter::default();
     let greeter = GreeterServer::new(greeter);
-    let greeter = tonic_web::config()
-        .allow_origins(vec!["127.0.0.1"])
-        .enable(greeter);
 
     println!("GreeterServer listening on {}", addr);
 
     Server::builder()
         .accept_http1(true)
-        .add_service(greeter)
+        .add_service(tonic_web::enable(greeter))
         .serve(addr)
         .await?;
 
