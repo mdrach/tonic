@@ -41,7 +41,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Server::builder()
         .accept_http1(true)
-        .add_service(greeter)
+        .add_service(tonic_web::enable(greeter))
         .serve(addr)
         .await?;
 
